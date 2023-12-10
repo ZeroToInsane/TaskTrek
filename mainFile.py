@@ -1,11 +1,18 @@
+# Project: TaskTrek
+# Author: Mario Spörl
+# File: Main File for the Project
+
 import tkinter as tk
 import json
 
+# Main Function
 def main():
     def buttonAdd_click():
         task = inputBox.get()
         if task: 
-            listBox.insert(tk.END, task)
+            checkedStatus = tk.BooleanVar()
+            checkbox = tk.Checkbutton(frame, text=task, variable=checkedStatus)
+            checkbox.pack(anchor='w')
             inputBox.delete(0, tk.END)
 
     def buttonSaveJson_click():
@@ -25,17 +32,34 @@ def main():
         except FileNotFoundError:
             print("Datei nicht gefunden!")
 
+    # Main window
     window = tk.Tk()
     window.title("TaskTrek")
 
+    # Button & Inputbox for adding new tasks 
     inputBox = tk.Entry(window)
     inputBox.pack()
 
     buttonAdd = tk.Button(window, text="Add", command=buttonAdd_click)
     buttonAdd.pack()
 
-    listBox = tk.Listbox(window)
-    listBox.pack()
+    # Frame for the tasks
+    frame = tk.Frame(window)
+    frame.pack(padx=10, pady=10)
+
+    # To-Do-Elemente
+    todos = [
+        "Einkaufen gehen",
+        "Hausaufgaben machen",
+        "Spazieren gehen",
+        "Python lernen"
+    ]
+
+    # Erstellen der Checkbuttons für jedes To-Do
+    for todo in todos:
+        var = tk.BooleanVar()
+        check = tk.Checkbutton(frame, text=todo, variable=var)
+        check.pack(anchor='w')
 
     buttonSaveJson = tk.Button(window, text="Save to Json", command=buttonSaveJson_click)
     buttonSaveJson.pack()
@@ -45,6 +69,7 @@ def main():
 
     window.mainloop()
 
+# Execute the main() function
 if __name__ == "__main__":
     main()
 
